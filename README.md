@@ -1,2 +1,13 @@
-# gol_detector
+# Gol detector
  app to detect filmed goals
+
+Requirements
+To run this project, you need to have the following requirements installed:
+
+Python 3.x
+ultralytics
+supervision
+OpenCV
+NumPy
+Matplotlib
+Pandas
