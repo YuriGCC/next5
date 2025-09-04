@@ -1,5 +1,3 @@
-# File: next11/processing/video_processor.py
-
 import cv2
 from ultralytics import YOLO
 import logging
