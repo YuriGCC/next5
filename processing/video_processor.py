@@ -26,6 +26,111 @@ class VideoProcessor:
         self.video_info = {}
         self.writer = None
 
+
+    def process_video(self, input_path: str, output_path: str):
+          """
+          Processes the input video and saves the result.
+
+          Args:
+              input_path (str): Path to the input video file.
+              output_path (str): Path to save the processed video file.
+          """
+
+          self.cap = cv2.VideoCapture(input_path)
+          try:
+              self._load_video_info()
+              self._setup_writer(output_path)
+
+              frame_num = 0
+              while self.cap.isOpened():
+                  ret, frame = self.cap.read()
+                  if not ret:
+                      break
+
+                  # Perform detection on the frame
+                  results = self.model(frame)
+
+                  # Get the frame with annotations (bounding boxes)
+                  annotated_frame = results[0].plot()
+
+                  # Write the processed frame to the output file
+                  self.writer.write(annotated_frame)
+
+                  frame_num += 1
+                  if frame_num % 100 == 0:  # Log every 100 frames
+                      progress = (frame_num / self.video_info['frame_count']) * 100
+                      logging.info(f"Progress: {progress:.2f}% ({frame_num}/{self.video_info['frame_count']} frames)")
+
+              logging.info("Video processing completed successfully.")
+
+          except Exception as e:
+              logging.error(f"An error occurred during processing: {e}")
+          finally:
+              self._cleanup()
+
+    def cut_video(self, input_path: str, output_path: str, start_time: float, end_time: float):
+          """
+          Cuts the video between the given start and end times.
+
+            Args:
+                input_path (str): Path to the input video file.
+                output_path (str): Path to save the processed video file.
+                start_time (float): Start time in seconds.
+                end_time (float): End time in seconds.
+          """
+          self.cap = cv2.VideoCapture(input_path)
+
+          try:
+              self._load_video_info()
+
+              duration = self.video_info['frame_count'] / self.video_info['fps']
+              if end_time > duration:
+                  end_time = duration
+                  logging.warning(f"End time adjusted to video duration: {duration:.2f}s")
+
+              if start_time >= end_time:
+                  raise ValueError("Start time must be less than end time.")
+
+              self._setup_writer(output_path)
+
+              start_frame = int(start_time * self.video_info['fps'])
+              end_frame = int(end_time * self.video_info['fps'])
+
+              total_frames_to_cut = end_frame - start_frame
+
+              logging.info(f"Cutting video from frame {start_frame} to {end_frame}.")
+
+              # Start the video from the specified frame
+              self.cap.set(cv2.CAP_PROP_POS_FRAMES, start_frame)
+
+              frames_processed = 0
+              while self.cap.isOpened():
+                  current_frame_pos = int(self.cap.get(cv2.CAP_PROP_POS_FRAMES))
+
+                  if current_frame_pos > end_frame:
+                      break
+
+                  ret, frame = self.cap.read()
+                  if not ret:
+                      break
+
+                  self.writer.write(frame)
+                  frames_processed += 1
+
+                  # Updates the progress every 100 frames
+                  if frames_processed % 100 == 0:
+                      progress = (frames_processed / total_frames_to_cut) * 100
+                      logging.info(f"Cutting Progress: {progress:.2f}%")
+
+              logging.info("Video cut successfully.")
+
+          except Exception as e:
+              logging.error(f"An error occurred during the cut: {e}")
+          finally:
+              self._cleanup()
+
+
+
     def _load_video_info(self):
         """Private method to load information from the input video."""
         if not self.cap.isOpened():
@@ -49,46 +154,6 @@ class VideoProcessor:
         )
         logging.info(f"Output file configured at: {output_path}")
 
-    def process_video(self, input_path: str, output_path: str):
-        """
-        Processes the input video and saves the result.
-
-        Args:
-            input_path (str): Path to the input video file.
-            output_path (str): Path to save the processed video file.
-        """
-        self.cap = cv2.VideoCapture(input_path)
-        try:
-            self._load_video_info()
-            self._setup_writer(output_path)
-
-            frame_num = 0
-            while self.cap.isOpened():
-                ret, frame = self.cap.read()
-                if not ret:
-                    break  # End of video
-
-                # Perform detection on the frame
-                results = self.model(frame)
-
-                # Get the frame with annotations (bounding boxes)
-                annotated_frame = results[0].plot()
-
-                # Write the processed frame to the output file
-                self.writer.write(annotated_frame)
-
-                frame_num += 1
-                if frame_num % 100 == 0:  # Log every 100 frames
-                    progress = (frame_num / self.video_info['frame_count']) * 100
-                    logging.info(f"Progress: {progress:.2f}% ({frame_num}/{self.video_info['frame_count']} frames)")
-
-            logging.info("Video processing completed successfully.")
-
-        except Exception as e:
-            logging.error(f"An error occurred during processing: {e}")
-        finally:
-            self._cleanup()
-
     def _cleanup(self):
         """Releases video resources."""
         if self.cap:
@@ -97,3 +162,4 @@ class VideoProcessor:
             self.writer.release()
         cv2.destroyAllWindows()
         logging.info("Video resources released.")
+

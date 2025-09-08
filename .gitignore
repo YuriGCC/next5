@@ -1,0 +1,4 @@
+.env
+
+# Sensitive files
+/models/
