@@ -12,6 +12,7 @@ class User(Base):
     hashed_password = Column(String(255), nullable=False)
     full_name = Column(String(255))
     role = Column(String(255), default='player')
+    profile_image_url = Column(String(512), nullable=True)
 
     created_at = Column(
         DateTime(timezone=True),
