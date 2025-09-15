@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:gallery_saver/gallery_saver.dart';
+// import 'package:gallery_saver/gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class RecordingScreen extends StatefulWidget {
@@ -77,7 +77,7 @@ class _RecordingScreenState extends State<RecordingScreen> {
       setState(() { _isRecording = false; });
 
       // Save on gallery
-      await GallerySaver.saveVideo(file.path);
+      // await GallerySaver.saveVideo(file.path);
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Vídeo salvo na galeria: ${file.path}')),
