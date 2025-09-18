@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/api/auth_service.dart';
-import 'package:frontend/core/services/secure_storage_service.dart';
+import 'package:frontend/src/core/api/auth_service.dart';
+import 'package:frontend/src/core/services/secure_storage_service.dart';
 
 class AuthProvider extends ChangeNotifier {
   final AuthService _authService = AuthService();

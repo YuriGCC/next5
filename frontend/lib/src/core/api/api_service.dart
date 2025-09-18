@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:frontend/core/services/secure_storage_service.dart';
+import 'package:frontend/src/core/services/secure_storage_service.dart';
 
 class ApiService {
   final Dio dio;

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:frontend/core/api/api_service.dart';
+import 'package:frontend/src/core/api/api_service.dart';
 
 class AuthService {
   final ApiService _apiService = ApiService();
