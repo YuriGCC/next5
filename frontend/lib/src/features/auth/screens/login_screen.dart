@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             backgroundColor: Colors.redAccent,
-            content: Text('Email ou senha inválidos,. Tente novamente'),
+            content: Text('Email ou senha inválidos. Tente novamente'),
           )
         );
       }
@@ -82,6 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ElevatedButton(
                             onPressed: _login,
                             child: const Text('login')),
+                        const SizedBox(height: 45,),
                         TextButton(
                           child: const Text(
                             'Esqueceu a senha?',
