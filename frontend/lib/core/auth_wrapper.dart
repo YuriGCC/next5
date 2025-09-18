@@ -18,7 +18,7 @@ class AuthWrapper extends StatelessWidget {
     }
 
     if (authProvider.isAuthenticated) {
-      // recording screen
+      return RecordingScreen();
     } else {
       return const LoginScreen();
     }
