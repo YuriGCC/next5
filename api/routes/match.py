@@ -1,4 +1,6 @@
-from db.models import match, clip
+from fastapi import HTTPException
+from db.models.video import VideoClip
+from db.models.match import Match
 from schemas.video import VideoCutRequest, VideoClipRead
 from fastapi import status, APIRouter, Depends
 from db.session import get_session, Session

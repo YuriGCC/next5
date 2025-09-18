@@ -13,7 +13,7 @@ UPLOAD_DIR = Path("static/profile_pics")
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 
-@router.post('/register', response_model=UserRead, status_code=status.HTTP_21_CREATED)
+@router.post('/register', response_model=UserRead, status_code=status.HTTP_201_CREATED)
 def register_user(user_data: UserCreate, db: Session = Depends(get_session)):
 
     db_user = db.query(User).filter(User.email == user_data.email).first()

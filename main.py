@@ -1,6 +1,7 @@
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles # 1. Importe a classe StaticFiles
-
+from fastapi.staticfiles import StaticFiles
+import uvicorn
+from api.api_routes import api_router
 
 app = FastAPI(
     title="Next5 API",
@@ -21,7 +22,7 @@ app.mount(
     name="static"
 )
 
-# routers
+app.include_router(api_router)
 
 @app.get("/")
 def read_root():
