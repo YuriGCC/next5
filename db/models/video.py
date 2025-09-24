@@ -14,6 +14,7 @@ class VideoClip(Base):
     original_match_id = Column(Integer, ForeignKey("matches.id", ondelete="CASCADE"), nullable=False)
     clip_path = Column(String)
 
+
     status = Column(SQLEnum(ClipStatusEnum), default=ClipStatusEnum.PENDING, nullable=False)
     start_time_seconds = Column(REAL, nullable=False)
 

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/core/auth_provider.dart';
 import 'package:frontend/features/auth/screens/login_screen.dart';
-import 'package:frontend/features/recording/screens/recording_screen.dart';
-
+import 'package:frontend/features/home/secreens/home_screen.dart';
 
 class AuthWrapper extends StatelessWidget {
 
@@ -18,11 +17,10 @@ class AuthWrapper extends StatelessWidget {
     }
 
     if (authProvider.isAuthenticated) {
-      return RecordingScreen();
+      return HomeScreen();
     } else {
       return const LoginScreen();
     }
-
 
   }
 }

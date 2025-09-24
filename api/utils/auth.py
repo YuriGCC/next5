@@ -7,6 +7,7 @@ from fastapi.security import OAuth2PasswordBearer
 from db.models.user import User
 from db.session import Session, get_session
 import os
+from db.models.team import Team
 
 load_dotenv()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
@@ -46,3 +47,15 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     if user is None:
         raise credentials_exception
     return user
+
+def get_team_for_current_user(
+    team_id: int,
+    db: Session = Depends(get_session),
+    current_user = Depends(get_current_user)
+) -> Team:
+    team = db.query(Team).filter(Team.id == team_id).first()
+    if not team:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Team not found")
+    if team.created_by_user_id != current_user.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail='Not authorized to access this team')
+    return team

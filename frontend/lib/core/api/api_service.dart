@@ -5,6 +5,8 @@ class ApiService {
   final Dio dio;
   final SecureStorageService _storageService = SecureStorageService();
 
+  // http://10.0.2.2:8000/  emulador
+  // http://127.0.0.1:8000/  web
   static const String _baseUrl = 'http://127.0.0.1:8000/';
 
   ApiService() : dio = Dio(BaseOptions(baseUrl: _baseUrl)) {

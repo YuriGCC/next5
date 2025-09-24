@@ -6,6 +6,8 @@ class PlayerBase(BaseModel):
     jersey_number: int | None = None
     position: str | None = None
 
+class PlayerUpdate(PlayerBase):
+    pass
 
 class PlayerCreate(PlayerBase):
     pass

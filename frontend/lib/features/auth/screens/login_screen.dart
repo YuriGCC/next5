@@ -97,9 +97,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         )
                       ],
                     ),
+                    const SizedBox(height: 25,),
                     ElevatedButton(
                       onPressed: redirectToRegister,
-                      child: const Text('registrar-se'),
+                      child: const Text('cadastrar-se'),
                     ),
                   ],
                 ),

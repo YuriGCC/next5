@@ -34,6 +34,7 @@ class Match(Base):
     home_team = relationship("Team", foreign_keys=[home_team_id], back_populates="home_matches")
     away_team = relationship("Team", foreign_keys=[away_team_id], back_populates="away_matches")
     statistics = relationship("MatchStatistics", back_populates="match", cascade="all, delete-orphan")
+    clips = relationship("VideoClip", back_populates="original_match", cascade="all, delete-orphan")
 
 # Statistics related to the match
 class MatchStatistics(Base):

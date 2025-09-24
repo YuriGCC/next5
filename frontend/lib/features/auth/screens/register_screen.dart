@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/features/utils/input_field.dart';
-import 'package:frontend/features/utils/input_field.dart';
+import 'package:frontend/features/auth/widgets/password_checklist.dart';
+import 'package:frontend/core/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -12,22 +14,25 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _nameController = TextEditingController();
   final _functionController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
 
-  Future<void> registry() async {
-    if (_formKey.currentState?.validate() ?? false) {
-      // Se for válido, prossiga com a lógica de registro
-      print("Formulário de registro válido!");
-    }
+  @override void dispose() {
+    _emailController.dispose();
+    _nameController.dispose();
+    _functionController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = context.watch<AuthProvider>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Criar Conta'),
@@ -46,17 +51,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const SizedBox(height: 24),
                   InputField(labelText: 'Nome Completo', controller: _nameController),
                   const SizedBox(height: 16),
-                  InputField(labelText: 'Função dentro de jogo', controller: _functionController),
+                  InputField(labelText: 'Função', controller: _functionController),
                   const SizedBox(height: 16),
                   InputField(labelText: 'Email', controller: _emailController, inputType: TextInputType.emailAddress),
                   const SizedBox(height: 16),
                   InputField(labelText: 'Senha', controller: _passwordController, isPassword: true),
                   const SizedBox(height: 16),
+                  PasswordCheckList(
+                      password1Controller: _passwordController,
+                      password2Controller: _confirmPasswordController,
+                  ),
+                  const SizedBox(height: 16,),
                   InputField(labelText: 'Confirmar Senha', controller: _confirmPasswordController, isPassword: true),
                   const SizedBox(height: 48),
-                  ElevatedButton(
-                    onPressed: registry,
-                    child: const Text('registrar-se'),
+                  if (authProvider.isLoading) const Center(child: CircularProgressIndicator(),)
+                  else ElevatedButton(
+                    onPressed: _register,
+                    child: const Text('cadastrar-se'),
                   ),
                   const SizedBox(height: 24),
                 ],
@@ -66,6 +77,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _register() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      final authProvider = context.read<AuthProvider>();
+
+      final sucess = await authProvider.register(
+          email: _emailController.text,
+          password: _passwordController.text,
+          fullName: _nameController.text
+      );
+
+      if (!sucess && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.redAccent,
+            content: Text(authProvider.errorMessage ?? 'Ocorreu um erro'),
+          )
+        );
+      }
+    }
   }
 }
 

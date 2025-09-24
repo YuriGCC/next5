@@ -1,23 +1,25 @@
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from db.session import Session, get_session
 from api.utils.auth import hash_password, verify_password, create_access_token
-from schemas.user import UserCreate, UserRead
+from schemas.user import UserCreate, UserRead, UserLogin
 from db.models.user import User
 from api.utils.auth import get_current_user
 import os, shutil, uuid
 from pathlib import Path
 
-router = APIRouter()
+auth_router = APIRouter()
+public_router = APIRouter()
+
 
 UPLOAD_DIR = Path("static/profile_pics")
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
-
-@router.post('/register', response_model=UserRead, status_code=status.HTTP_201_CREATED)
+# === Public routes ===
+@public_router.post('/register', response_model=UserRead, status_code=status.HTTP_201_CREATED)
 def register_user(user_data: UserCreate, db: Session = Depends(get_session)):
 
     db_user = db.query(User).filter(User.email == user_data.email).first()
-
+    print(user_data)
     if db_user:
         raise HTTPException(status_code=400, detail='Email already registered.')
 
@@ -36,8 +38,8 @@ def register_user(user_data: UserCreate, db: Session = Depends(get_session)):
 
     return new_user
 
-@router.post('/login')
-def login(user_in: UserCreate, db: Session = Depends(get_session)):
+@public_router.post('/login')
+def login(user_in: UserLogin, db: Session = Depends(get_session)):
     user = db.query(User).filter(User.email == user_in.email).first()
 
     if not user or not verify_password(user_in.password, user.hashed_password):
@@ -45,13 +47,19 @@ def login(user_in: UserCreate, db: Session = Depends(get_session)):
 
     token = create_access_token(data={'sub': user.email})
 
-    return {'access_token': token, 'token_type': 'bearer'}
+    return {
+        'access_token': token,
+        'token_type': 'bearer',
+        'user': UserRead.from_orm(user)
+    }
 
-@router.put('users/me/picture', response_model=UserRead)
+# === Auth routes ===
+
+@auth_router.put('/auth/users/me/picture', response_model=UserRead)
 async def upload_user_profile_picture(
-        db: Session = Depends(get_session),
-        current_user: User = Depends(get_current_user),
-        file: UploadFile = File(...)):
+    db: Session = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+    file: UploadFile = File(...)):
     """
         Uploads a new profile picture for the currently authenticated user.
     """
@@ -74,3 +82,5 @@ async def upload_user_profile_picture(
     db.refresh(current_user)
 
     return current_user
+
+

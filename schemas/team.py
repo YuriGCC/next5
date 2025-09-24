@@ -5,8 +5,11 @@ from schemas.player import PlayerRead
 class TeamBase(BaseModel):
     name: str
 
-class TeamCreate(TeamBase):
+class TeamEdit(TeamBase):
     pass
+
+class TeamCreate(TeamBase):
+    created_at: datetime.datetime
 
 
 class TeamRead(TeamBase):

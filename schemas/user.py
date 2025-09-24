@@ -7,9 +7,13 @@ class UserBase(BaseModel):
     email: EmailStr
     full_name: str | None = None
 
+class UserLogin(BaseModel):
+    email: str
+    password: str
+
 class UserCreate(UserBase):
     password: str
-    role: str
+    role: str | None = 'jogador'
 
 class UserRead(UserBase):
     id: int

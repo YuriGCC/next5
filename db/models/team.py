@@ -16,7 +16,7 @@ class Team(Base):
     created_by_user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     created_by = relationship('User', back_populates='teams')
 
-    players = relationship('Player', back_populates='team', cascade='ALL, delete-orphan')
+    players = relationship('Player', back_populates='team', cascade='all, delete-orphan')
     home_matches = relationship("Match", foreign_keys="Match.home_team_id", back_populates="home_team")
     away_matches = relationship("Match", foreign_keys="Match.away_team_id", back_populates="away_team")
 

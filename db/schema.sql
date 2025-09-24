@@ -41,8 +41,8 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE NOT NULL,
     hashed_password VARCHAR(255) NOT NULL,
     full_name VARCHAR(255),
-    role VARCHAR(255) DEFAULT 'jogador'
-    profile_image_url VARCHAR(512);
+    role VARCHAR(255) DEFAULT 'jogador',
+    profile_image_url VARCHAR(512),
 
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
