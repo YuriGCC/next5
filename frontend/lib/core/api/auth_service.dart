@@ -1,16 +1,14 @@
 import 'package:dio/dio.dart';
-import 'package:frontend/core/api/api_service.dart';
 
 class AuthService {
-  final ApiService _apiService = ApiService();
+  final Dio _dio;
+
+  AuthService(this._dio);
 
   Future<Map<String, dynamic>?> login(String email, String password) async {
-    final response = await _apiService.dio.post(
+    final response = await _dio.post(
       '/login',
-      data: {
-        'email': email,
-        'password': password
-      },
+      data: {'email': email, 'password': password},
     );
 
     if (response.statusCode == 200) {
@@ -25,13 +23,13 @@ class AuthService {
     required String password,
   }) async {
     try {
-      final response = await _apiService.dio.post(
-        '/register',
-        data: {
-          'email': email,
-          'full_name': fullName,
-          'password': password,
-        },
+      final response = await _dio.post(
+          '/register',
+          data: {
+            'email': email,
+            'full_name': fullName,
+            'password': password,
+          },
       );
 
       if (response.statusCode == 201) {

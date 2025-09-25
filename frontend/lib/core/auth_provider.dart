@@ -4,8 +4,8 @@ import 'package:frontend/core/services/secure_storage_service.dart';
 import 'package:frontend/core/api/models/user_model.dart';
 
 class AuthProvider extends ChangeNotifier {
-  final AuthService _authService = AuthService();
-  final SecureStorageService _storageService = SecureStorageService();
+  final AuthService _authService;
+  final SecureStorageService _storageService;
 
   bool _isAuthenticated = false;
   bool get isAuthenticated => _isAuthenticated;
@@ -18,7 +18,7 @@ class AuthProvider extends ChangeNotifier {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
-  AuthProvider() {
+  AuthProvider(this._authService, this._storageService) {
     _checkCurrentUser();
   }
 

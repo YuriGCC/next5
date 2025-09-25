@@ -1,25 +1,26 @@
 import 'package:dio/dio.dart';
 import 'package:frontend/core/services/secure_storage_service.dart';
 
-class ApiService {
-  final Dio dio;
-  final SecureStorageService _storageService = SecureStorageService();
+Dio setupDio() {
+  final SecureStorageService storageService = SecureStorageService();
+  // 10.0.2.2 para emulador
+  const String baseUrl = 'http://127.0.0.1:8000/';
 
-  // http://10.0.2.2:8000/  emulador
-  // http://127.0.0.1:8000/  web
-  static const String _baseUrl = 'http://127.0.0.1:8000/';
+  final dio = Dio(BaseOptions(baseUrl: baseUrl));
 
-  ApiService() : dio = Dio(BaseOptions(baseUrl: _baseUrl)) {
-    dio.interceptors.add(InterceptorsWrapper(
+  dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        if (!options.path.contains('/auth')) {
-          final token = await _storageService.readToken();
+        final publicRoutes = ['/login', '/register'];
+
+        if (!publicRoutes.contains(options.path)) {
+          final token = await storageService.readToken();
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
           }
         }
         return handler.next(options);
       }
-    ));
-  }
+  ));
+
+  return dio;
 }

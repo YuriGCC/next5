@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:frontend/features/shared/screens/app_shell.dart';
+import 'package:frontend/features/utils/app_shell.dart';
 import 'package:frontend/features/home/secreens/home_screen.dart';
 import 'package:frontend/features/auth/screens/register_screen.dart';
 import 'package:frontend/features/auth/screens/login_screen.dart';
+import 'package:frontend/features/teams/screens/team_detail_screen.dart';
+import 'package:frontend/features/teams/screens/team_screen.dart';
+
 
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 final appRouter = GoRouter(
-  initialLocation: '/home',
+  initialLocation: '/login',
   navigatorKey: GlobalKey<NavigatorState>(),
   routes: [
     StatefulShellRoute.indexedStack(
@@ -26,7 +29,6 @@ final appRouter = GoRouter(
           ],
         ),
 
-        // Aba 2: Perfil (índice 1)
         StatefulShellBranch(
           routes: [
             GoRoute(
@@ -50,6 +52,24 @@ final appRouter = GoRouter(
             GoRoute(
               path: '/live_game',
               builder: (context, state) => const Center(child: Text("Tela de Jogo")),
+            ),
+          ],
+        ),
+
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/teams',
+              builder: (context, state) => const TeamsScreen(),
+              routes: [
+                GoRoute(
+                  path: ':teamId',
+                  builder: (context, state) {
+                    final teamId = int.parse(state.pathParameters['teamId']!);
+                    return TeamDetailScreen(teamId: teamId);
+                  },
+                ),
+              ],
             ),
           ],
         ),
