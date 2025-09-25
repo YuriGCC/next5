@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/features/enums/nav_bar_page.dart';
-import 'package:frontend/features/utils/navigationbar_widget.dart';
+import 'package:frontend/features/utils/custom_navigationbar_widget.dart';
 
 class AppShell extends StatelessWidget {
   final StatefulNavigationShell navigationShell;

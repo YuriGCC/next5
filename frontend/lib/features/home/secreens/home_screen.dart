@@ -21,22 +21,11 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ElevatedButton(
-                onPressed: _redirectToGame,
-                child: const Text('iniciar partida')
-            ),
-            const SizedBox(height: 25,),
-            ElevatedButton(
-                onPressed: _redirectToEdit,
-                child: const Text('edição')
-            ),
+            Text('home')
           ],
         ),
       ),
     );
   }
-
-  void _redirectToGame() {}
   
-  void _redirectToEdit() {}
 }
