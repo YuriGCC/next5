@@ -1,4 +1,3 @@
-
 enum NavBarPage {
   home,
   profile,
