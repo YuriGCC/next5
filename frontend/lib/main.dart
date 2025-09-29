@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/core/services/secure_storage_service.dart';
 import 'package:frontend/features/utils/app_router.dart';
 import 'package:frontend/features/utils/app_theme.dart';
-import 'package:frontend/core/auth_provider.dart';
+import 'package:frontend/core/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 import 'package:frontend/core/api/api_service.dart';
@@ -63,10 +63,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = context.watch<AuthProvider>();
+    final appRouterConfig = AppRouter(authProvider).router;
+
     return MaterialApp.router(
       title: 'Next5',
       theme: AppTheme.buildTheme(),
-      routerConfig: appRouter,
+      routerConfig: appRouterConfig,
     );
   }
 }

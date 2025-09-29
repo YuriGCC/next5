@@ -25,7 +25,7 @@ app.add_middleware(
 )
 
 """
-In a high-traffic production environment, the best practice is to use a web server in front of your application, 
+In a high-traffic production environment, the best practice is to use a web server in front of the application, 
 such as Nginx, to serve static files directly. Nginx is highly optimized for this task and more performant 
 than using the application's app.mount.
 

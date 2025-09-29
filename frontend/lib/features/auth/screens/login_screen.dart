@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/features/utils/input_field.dart';
-import 'package:frontend/core/auth_provider.dart';
+import 'package:frontend/core/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 

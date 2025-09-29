@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/auth_provider.dart';
+import 'package:frontend/core/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
 class HomeAppBar extends StatefulWidget implements PreferredSizeWidget {
