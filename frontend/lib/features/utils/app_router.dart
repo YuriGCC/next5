@@ -10,6 +10,7 @@ import 'package:frontend/features/profile/teams/screens/team_screen.dart';
 import 'package:frontend/features/profile/screens/profile_screen.dart';
 import 'package:frontend/features/live_game/screens/live_game_screen.dart';
 import 'package:frontend/features/video_area/screens/video_area_screen.dart';
+import 'package:frontend/features/video_area/screens/edit_video_screen.dart';
 
 class AppRouter {
   final AuthProvider authProvider;
@@ -30,10 +31,10 @@ class AppRouter {
 
       final bool isAuthRoute = state.matchedLocation == '/login' || state.matchedLocation == '/register';
 
-      if (!isAuthenticated && !isAuthRoute) {
-        // return '/login';
-        return '/video_area';
-      }
+      //if (!isAuthenticated && !isAuthRoute) {
+      //  // return '/login';
+      //  return '/video_area';
+      //}
 
       if (isAuthenticated && isAuthRoute) {
         return '/home';
@@ -86,6 +87,16 @@ class AppRouter {
       GoRoute(
         path: '/login',
         builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: '/edit',
+        builder: (context, state) {
+          final Map<String, dynamic> data = state.extra as Map<String, dynamic>;
+          final String path = data['path'];
+          final bool isNetwork = data['isNetwork'];
+
+          return EditVideoScreen(path: path, isNetwork: isNetwork);
+        }
       ),
       GoRoute(
         path: '/register',

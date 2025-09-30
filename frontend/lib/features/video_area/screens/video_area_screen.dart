@@ -33,16 +33,16 @@ class _VideoAreaScreenState extends State<VideoAreaScreen> {
 
   List<ListVideoArchivesWidget> _generateArchives() {
     return [
-      ListVideoArchivesWidget(recordType: RecordType.RECORD, archiveName: 'C:/nome'),
-      ListVideoArchivesWidget(recordType: RecordType.RECORD, archiveName: 'C:/nome'),
-      ListVideoArchivesWidget(recordType: RecordType.RECORD, archiveName: 'C:/nome'),
-      ListVideoArchivesWidget(recordType: RecordType.RECORD, archiveName: 'C:/nome'),
-      ListVideoArchivesWidget(recordType: RecordType.RECORD, archiveName: 'C:/nome'),
-      ListVideoArchivesWidget(recordType: RecordType.RECORD, archiveName: 'C:/nome'),
-      ListVideoArchivesWidget(recordType: RecordType.RECORD, archiveName: 'C:/nome'),
-      ListVideoArchivesWidget(recordType: RecordType.RECORD, archiveName: 'C:/nome'),
-      ListVideoArchivesWidget(recordType: RecordType.RECORD, archiveName: 'C:/nome'),
-      ListVideoArchivesWidget(recordType: RecordType.RECORD, archiveName: 'C:/nome'),
+      ListVideoArchivesWidget(recordType: RecordType.RECORD, archivePath: 'C:/nome'),
+      ListVideoArchivesWidget(recordType: RecordType.RECORD, archivePath: 'C:/nome'),
+      ListVideoArchivesWidget(recordType: RecordType.RECORD, archivePath: 'C:/nome'),
+      ListVideoArchivesWidget(recordType: RecordType.RECORD, archivePath: 'C:/nome'),
+      ListVideoArchivesWidget(recordType: RecordType.RECORD, archivePath: 'C:/nome'),
+      ListVideoArchivesWidget(recordType: RecordType.RECORD, archivePath: 'C:/nome'),
+      ListVideoArchivesWidget(recordType: RecordType.RECORD, archivePath: 'C:/nome'),
+      ListVideoArchivesWidget(recordType: RecordType.RECORD, archivePath: 'C:/nome'),
+      ListVideoArchivesWidget(recordType: RecordType.RECORD, archivePath: 'C:/nome'),
+      ListVideoArchivesWidget(recordType: RecordType.RECORD, archivePath: 'C:/nome'),
 
     ];
   }
