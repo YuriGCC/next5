@@ -5,6 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:go_router/go_router.dart';
 
 class ListVideoArchivesWidget extends StatelessWidget {
   final RecordType recordType;
@@ -24,11 +25,11 @@ class ListVideoArchivesWidget extends StatelessWidget {
     switch (recordType) {
       case RecordType.RECORD:
         displayIcon = Icons.videocam;
-        subtitleText = 'Gravação Completa';
+        subtitleText = 'Gravação';
         break;
       case RecordType.CLIP:
         displayIcon = Icons.content_cut;
-        subtitleText = 'Clipe Gerado';
+        subtitleText = 'Clipe';
         break;
     }
 
@@ -45,19 +46,47 @@ class ListVideoArchivesWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Container(
-                width: 150,
-                height: 150,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade800,
-                  image: DecorationImage(
-                    image: AssetImage('/images/logo.png'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
+              FutureBuilder<Uint8List?>(
+                  future: generateThumbnailFromAsset('videos/video.mp4'),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Container(
+                        width: 150,
+                        height: 150,
+                        color: Colors.grey.shade800,
+                        child: const Center(child: CircularProgressIndicator()),
+                      );
+                    }
+
+                    if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
+
+                      return Container(
+                        width: 150,
+                        height: 150,
+                        color: Colors.grey.shade800,
+                        child: const Center(child: Icon(Icons.error_outline, color: Colors.red, size: 50)),
+                      );
+                    }
+
+                    return Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade800,
+                        image: DecorationImage(
+                          image: MemoryImage(snapshot.data!),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    );
+                  }
               ),
             ],
           ),
+          Row(
+
+          )
         ],
       ),
     );
@@ -76,7 +105,7 @@ class ListVideoArchivesWidget extends StatelessWidget {
     // Generate thumbnail from temporary file PATH
     final thumbnailBytes = await VideoThumbnail.thumbnailData(
       video: tempFile.path,
-      imageFormat: ImageFormat.PNG,
+      imageFormat: ImageFormat.JPEG,
       maxWidth: 200,
       quality: 50
     );
@@ -87,5 +116,7 @@ class ListVideoArchivesWidget extends StatelessWidget {
     return thumbnailBytes;
   }
 
-  void _goEdit() {}
+  void _goEdit() {
+
+  }
 }
