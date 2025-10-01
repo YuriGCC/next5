@@ -15,8 +15,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _emailController = TextEditingController(text: 'teste@gmail.com');
+  final _passwordController = TextEditingController(text: '123');
   final _formKey = GlobalKey<FormState>();
 
   @override void dispose() {
@@ -69,6 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: _emailController,
                       labelText: 'Email',
                       suffixIcon: Icon(Icons.email_outlined),
+
                     ),
                     const SizedBox(height: 25,),
                     InputField(labelText: 'Senha', controller: _passwordController, isPassword: true,),

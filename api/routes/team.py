@@ -1,23 +1,17 @@
 from fastapi import APIRouter, Depends, HTTPException, Response
 from schemas.team import TeamRead, TeamCreate, TeamEdit
-from db.session import get_session, Session
-from api.utils.auth import get_current_user
+from api.utils.auth import get_current_user, get_session, Session
 from db.models import Team
 from typing import List
 
 router = APIRouter()
 
-router.get('/teams/', response_model=List[TeamRead])
-def get_teams(db: Session = Depends(get_session), current_user = Depends(get_current_user)):
-    """
-        Lists all teams created by the currently authenticated user.
-    """
-
+@router.get('/teams/', response_model=List[TeamRead])
+def get_teams(current_user = Depends(get_current_user), db: Session = Depends(get_session)):
     teams = db.query(Team).filter(Team.created_by_user_id == current_user.id).all()
-
     return teams
 
-router.get('/team/{team_id}', response_model=TeamRead)
+@router.get('/team/{team_id}', response_model=TeamRead)
 def get_team(team_id:int, db: Session = Depends(get_session), current_user = Depends(get_current_user)):
 
     team = db.query(Team).filter(Team.id == team_id).first()
@@ -29,7 +23,7 @@ def get_team(team_id:int, db: Session = Depends(get_session), current_user = Dep
 
     return team
 
-router.post('/team/', response_model=TeamRead, status_code=201)
+@router.post('/team/', response_model=TeamRead, status_code=201)
 def create_team(team: TeamCreate, db: Session = Depends(get_session), current_user = Depends(get_current_user)):
 
     new_team = Team(
@@ -38,13 +32,13 @@ def create_team(team: TeamCreate, db: Session = Depends(get_session), current_us
         created_at=team.created_at
     )
 
-    db.add(team)
+    db.add(new_team)
     db.commit()
     db.refresh(new_team)
 
-    return team
+    return new_team
 
-router.put('/team/{team_id}', response_model=TeamRead)
+@router.put('/team/{team_id}', response_model=TeamRead)
 def edit_team(team_id: int,
               team_data: TeamEdit,
               db: Session = Depends(get_session),
@@ -64,7 +58,7 @@ def edit_team(team_id: int,
 
     return team
 
-router.delete('/teams/{team_id}', status_code=204)
+@router.delete('/teams/{team_id}', status_code=204)
 def delete_team(team_id: int, db:Session = Depends(get_session), current_user = Depends(get_current_user)):
     """
     Deletes a specific team.

@@ -31,10 +31,10 @@ class AppRouter {
 
       final bool isAuthRoute = state.matchedLocation == '/login' || state.matchedLocation == '/register';
 
-      //if (!isAuthenticated && !isAuthRoute) {
-      //  // return '/login';
-      //  return '/video_area';
-      //}
+      if (!isAuthenticated && !isAuthRoute) {
+       return '/login';
+       // return '/video_area';
+      }
 
       if (isAuthenticated && isAuthRoute) {
         return '/home';

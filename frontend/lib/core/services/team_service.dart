@@ -6,14 +6,14 @@ class TeamService {
   TeamService(this._dio);
 
   Future<List<Team>> getMyTeams() async {
-    final response = await _dio.get('/auth/teams/');
+    final response = await _dio.get('/teams/');
     final List<dynamic> data = response.data;
     return data.map((json) => Team.fromJson(json)).toList();
   }
 
   Future<Team> createTeam(String name) async {
     final response = await _dio.post(
-      '/auth/teams/',
+      '/teams/',
       data: {'name': name},
     );
     return Team.fromJson(response.data);
