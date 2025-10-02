@@ -3,6 +3,8 @@ import 'package:frontend/core/providers/team_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/models/team_models.dart';
+import 'package:frontend/features/utils/custom_navigationbar_widget.dart';
+import 'package:frontend/features/enums/nav_bar_page.dart';
 
 class TeamsScreen extends StatefulWidget {
   const TeamsScreen({super.key});
@@ -98,6 +100,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
             ),
         ],
       ),
+      bottomNavigationBar: CustomNavBarWidget(currentPage: NavBarPage.profile),
     );
   }
 

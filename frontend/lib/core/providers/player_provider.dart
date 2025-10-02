@@ -6,30 +6,40 @@ class PlayerProvider with ChangeNotifier {
   final PlayerService _playerService;
   PlayerProvider(this._playerService);
 
-  List<Player> players = [];
-  bool isLoading = false;
-  String? error;
+  List<Player> _players = [];
+  List<Player> get players => _players;
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  String? _error;
+  String? get error => _error;
 
   Future<void> fetchPlayersForTeam(int teamId) async {
-    isLoading = true;
-    error = null;
+    _isLoading = true;
+    _error = null;
     notifyListeners();
     try {
-      players = await _playerService.getPlayersForTeam(teamId);
+      _players = await _playerService.getPlayersForTeam(teamId);
     } catch (e) {
-      error = e.toString();
+      _error = e.toString();
     }
-    isLoading = false;
+    _isLoading = false;
     notifyListeners();
   }
 
-  Future<void> addPlayerToTeam(int teamId, String name, String? position, int jerseyNumber) async {
+  Future<void> addPlayerToTeam(int teamId, String name, String position, int jerseyNumber) async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
     try {
       await _playerService.addPlayerToTeam(teamId, name, position, jerseyNumber);
       await fetchPlayersForTeam(teamId);
     } catch (e) {
-      error = e.toString();
+      _error = e.toString();
+      _isLoading = false;
       notifyListeners();
+      throw e;
     }
   }
 }

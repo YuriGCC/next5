@@ -67,7 +67,6 @@ class _EditVideoScreenState extends State<EditVideoScreen> {
     final minutes = twoDigits(duration.inMinutes.remainder(60));
     final seconds = twoDigits(duration.inSeconds.remainder(60));
     final milliseconds = threeDigits(duration.inMilliseconds.remainder(1000));
-    print("$minutes:$seconds.$milliseconds");
     return "$minutes:$seconds.$milliseconds";
   }
 

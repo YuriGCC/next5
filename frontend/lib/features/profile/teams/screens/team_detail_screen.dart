@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/providers/player_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:frontend/features/profile/widgets/user_item_list_widget.dart';
+
 
 class TeamDetailScreen extends StatefulWidget {
   final int teamId;

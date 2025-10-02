@@ -14,7 +14,7 @@ class PlayerService {
   Future<Player> addPlayerToTeam(int teamId, String name, String? position, int jerseyNumber) async {
     final response = await _dio.post(
       '/team/$teamId/players/',
-      data: {'name': name, 'position': position, 'jersey_number': jerseyNumber},
+      data: {'full_name': name, 'jersey_number': jerseyNumber, 'position': position},
     );
     return Player.fromJson(response.data);
   }
