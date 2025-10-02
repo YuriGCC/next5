@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from api.routes import match, team, video, user
+from api.routes import match, team, video, user, player
 
 api_router = APIRouter()
 

@@ -3,30 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:frontend/features/enums/nav_bar_page.dart';
 
 class CustomNavBarWidget extends StatelessWidget {
-  const CustomNavBarWidget({
-    super.key,
-    required this.currentPage,
-  });
+  const CustomNavBarWidget({super.key, required this.currentPage});
 
   final NavBarPage currentPage;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 70,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 8,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: _buildNavItems(context),
+    return SafeArea(
+      child: Container(
+        height: 70,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 8,
+              offset: const Offset(0, -2),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: _buildNavItems(context),
+        ),
       ),
     );
   }
@@ -113,6 +112,4 @@ class CustomNavBarWidget extends StatelessWidget {
         return '/live_game';
     }
   }
-
 }
-

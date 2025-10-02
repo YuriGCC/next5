@@ -16,7 +16,6 @@ Dio setupDio() {
 
   dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        print('--> [${options.method}] Enviando para: ${options.uri}');
         final publicRoutesPrefixes = ['/login', '/register'];
         final bool isPublicRoute = publicRoutesPrefixes.any((prefix) => options.path.startsWith(prefix));
         if (!isPublicRoute) {

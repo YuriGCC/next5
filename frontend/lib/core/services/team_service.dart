@@ -13,7 +13,7 @@ class TeamService {
 
   Future<Team> createTeam(String name) async {
     final response = await _dio.post(
-      '/teams/',
+      '/team/',
       data: {'name': name},
     );
     return Team.fromJson(response.data);

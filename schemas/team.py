@@ -9,7 +9,7 @@ class TeamEdit(TeamBase):
     pass
 
 class TeamCreate(TeamBase):
-    created_at: datetime.datetime
+    pass
 
 
 class TeamRead(TeamBase):

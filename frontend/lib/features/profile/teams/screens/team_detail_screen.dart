@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/providers/player_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:frontend/features/profile/widgets/user_item_list_widget.dart';
 
 class TeamDetailScreen extends StatefulWidget {
   final int teamId;
@@ -20,7 +21,78 @@ class _TeamDetailScreenState extends State<TeamDetailScreen> {
   }
 
   void _showAddPlayerDialog() {
-    // ... (o código do dialog é o mesmo da resposta anterior)
+    final playerNameController = TextEditingController();
+    final playerPositionController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Text('Adicionar Novo Jogador'),
+          content: Form(
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: playerNameController,
+                  decoration: const InputDecoration(labelText: 'Nome do Jogador'),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'O nome é obrigatório.';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: playerPositionController,
+                  decoration: const InputDecoration(labelText: 'Posição (ex: Pivô)'),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+              },
+            ),
+            ElevatedButton(
+              child: const Text('Adicionar'),
+              onPressed: () async {
+                if (formKey.currentState!.validate()) {
+                  final playerProvider = context.read<PlayerProvider>();
+                  try {
+                    await playerProvider.createPlayer(
+                      teamId: widget.teamId,
+                      name: playerNameController.text,
+                      position: playerPositionController.text,
+                    );
+
+                    if (mounted) {
+                      Navigator.of(dialogContext).pop();
+                    }
+                  } catch (e) {
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.redAccent,
+                          content: Text('Erro ao adicionar jogador: $e'),
+                        ),
+                      );
+                    }
+                  }
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -39,7 +111,11 @@ class _TeamDetailScreenState extends State<TeamDetailScreen> {
               final player = provider.players[index];
               return ListTile(
                 title: Text(player.name),
-                subtitle: Text(player.position ?? 'Sem posição'),
+                subtitle: Text(
+                    '${player.position ?? "Sem posição"}, '
+                    '${player.jerseyNumber == null ? 'Sem numeração de camisa' :
+                    'Camisa ${player.jerseyNumber}'}'
+                ),
               );
             },
           );

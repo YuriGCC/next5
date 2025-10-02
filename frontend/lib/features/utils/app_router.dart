@@ -7,6 +7,7 @@ import 'package:frontend/features/auth/screens/register_screen.dart';
 import 'package:frontend/features/auth/screens/login_screen.dart';
 import 'package:frontend/features/profile/teams/screens/team_detail_screen.dart';
 import 'package:frontend/features/profile/teams/screens/team_screen.dart';
+import 'package:frontend/features/profile/teams/screens/create_team.dart';
 import 'package:frontend/features/profile/screens/profile_screen.dart';
 import 'package:frontend/features/live_game/screens/live_game_screen.dart';
 import 'package:frontend/features/video_area/screens/video_area_screen.dart';
@@ -83,6 +84,14 @@ class AppRouter {
             },
           ),
         ],
+      ),
+      GoRoute(
+        path: '/',
+        builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: '/create_team',
+        builder: (context, state) => CreateTeamScreen(),
       ),
       GoRoute(
         path: '/login',
