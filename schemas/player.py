@@ -3,7 +3,7 @@ import datetime
 
 class PlayerBase(BaseModel):
     full_name: str
-    jersey_number: int | None = None
+    jersey_number: int
     position: str | None = None
 
 class PlayerUpdate(PlayerBase):

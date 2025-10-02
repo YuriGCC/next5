@@ -51,7 +51,7 @@ class ListVideoArchivesWidget extends StatelessWidget {
                   context.push(
                     '/edit',
                     extra: {
-                      'path': archivePath,
+                      'path': 'archivePath',
                       'isNetwork': false,
                     },
                   );

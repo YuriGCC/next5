@@ -23,9 +23,9 @@ class PlayerProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addPlayerToTeam(int teamId, String name, String? position) async {
+  Future<void> addPlayerToTeam(int teamId, String name, String? position, int jerseyNumber) async {
     try {
-      await _playerService.addPlayerToTeam(teamId, name, position);
+      await _playerService.addPlayerToTeam(teamId, name, position, jerseyNumber);
       await fetchPlayersForTeam(teamId);
     } catch (e) {
       error = e.toString();

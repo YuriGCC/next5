@@ -34,7 +34,6 @@ class AppRouter {
 
       if (!isAuthenticated && !isAuthRoute) {
        return '/login';
-       // return '/video_area';
       }
 
       if (isAuthenticated && isAuthRoute) {

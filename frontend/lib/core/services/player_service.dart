@@ -11,10 +11,10 @@ class PlayerService {
     return data.map((json) => Player.fromJson(json)).toList();
   }
 
-  Future<Player> addPlayerToTeam(int teamId, String name, String? position) async {
+  Future<Player> addPlayerToTeam(int teamId, String name, String? position, int jerseyNumber) async {
     final response = await _dio.post(
       '/team/$teamId/players/',
-      data: {'name': name, 'position': position},
+      data: {'name': name, 'position': position, 'jersey_number': jerseyNumber},
     );
     return Player.fromJson(response.data);
   }
