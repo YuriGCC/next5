@@ -20,80 +20,7 @@ class _TeamDetailScreenState extends State<TeamDetailScreen> {
     });
   }
 
-  void _showAddPlayerDialog() {
-    final playerNameController = TextEditingController();
-    final playerPositionController = TextEditingController();
-    final formKey = GlobalKey<FormState>();
 
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          title: const Text('Adicionar Novo Jogador'),
-          content: Form(
-            key: formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  controller: playerNameController,
-                  decoration: const InputDecoration(labelText: 'Nome do Jogador'),
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'O nome é obrigatório.';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: playerPositionController,
-                  decoration: const InputDecoration(labelText: 'Posição (ex: Pivô)'),
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Cancelar'),
-              onPressed: () {
-                Navigator.of(dialogContext).pop();
-              },
-            ),
-            ElevatedButton(
-              child: const Text('Adicionar'),
-              onPressed: () async {
-                if (formKey.currentState!.validate()) {
-                  final playerProvider = context.read<PlayerProvider>();
-                  try {
-                    await playerProvider.createPlayer(
-                      teamId: widget.teamId,
-                      name: playerNameController.text,
-                      position: playerPositionController.text,
-                    );
-
-                    if (mounted) {
-                      Navigator.of(dialogContext).pop();
-                    }
-                  } catch (e) {
-                    if (mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: Colors.redAccent,
-                          content: Text('Erro ao adicionar jogador: $e'),
-                        ),
-                      );
-                    }
-                  }
-                }
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,4 +54,6 @@ class _TeamDetailScreenState extends State<TeamDetailScreen> {
       ),
     );
   }
+
+  void _showAddPlayerDialog() {}
 }

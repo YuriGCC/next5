@@ -4,8 +4,9 @@ import 'package:frontend/core/services/secure_storage_service.dart';
 Dio setupDio() {
   final SecureStorageService storageService = SecureStorageService();
   // 10.0.2.2 para emulador
-  // ip da máquina rodandobackend para celular físico
-  const String baseUrl = 'http://192.168.100.48:8000/';
+  // ip da máquina rodandobackend para celular físico e na mesma rede ( http://192.168.100.48:8000/)
+  // https://next5-api.onrender.com/ render
+  const String baseUrl = 'https://next5-api.onrender.com/';
 
   final dio = Dio(
       BaseOptions(
